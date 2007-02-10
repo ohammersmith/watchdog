@@ -104,7 +104,7 @@ module Watchdog
       cl = Client.new(my_jid, false)
       cl.connect
       cl.auth(@user_choices[:jabber_password])
-      body = [subject, body].join("\n")
+      body = [subject, Watchdog.summarize(body)].join("\n")
       @user_choices[:jabber_to].each do | recipient | 
         m = Message::new(recipient, body).
           set_type(:normal).set_id('1').set_subject(subject)
@@ -193,7 +193,7 @@ module Watchdog
     end
     
     def bark(subject, message)
-      summary_message = message
+      summary_message = Watchdog.summarize(message)
       `growlnotify -n "watchdog" -m "#{summary_message}" -t "#{subject}"`
     end
   end

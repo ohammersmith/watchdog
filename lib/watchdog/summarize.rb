@@ -1,3 +1,7 @@
 module Watchdog
-  # Your code here
+  def self.summarize(message)
+    lines = message.split("\n")
+    lines[5...-5] = "..."
+    lines.join("\n")
+  end
 end

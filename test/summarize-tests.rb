@@ -12,20 +12,7 @@ include S4tUtils
 # require 'watchdog'
 
 class TestName < Test::Unit::TestCase
-  include Watchdog
 
-  sample_output = "  Duration: 0.012257 seconds.\n\
-  Command: ls\n\
-  Output:\n\
-    InstalledFiles\n\
-    README.txt\n\
-    Rakefile\n\
-    TODO.txt\n\
-    bin\n\
-    lib\n\
-    setup.rb\n\
-    share\n\
-    test\n"
     
   def setup
   end
@@ -34,6 +21,9 @@ class TestName < Test::Unit::TestCase
   end
 
   def test_summarize
-    summary = summarize(sample_output)
+    sample_output = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n"
+    summary = Watchdog.summarize(sample_output)
+    expected_summary = "1\n2\n3\n4\n5\n...\n16\n17\n18\n19\n20"
+    assert_equal(expected_summary, summary)
   end
 end

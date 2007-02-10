@@ -1,8 +1,9 @@
 Watchdog
 --------
-* truncated/summary of output in a bark, rather than the full thing, configuration per 
-
+* configurable summary per barker, rather than just summarizing the Growl and IM ones
+* configurable summary head and tail and '...' elipsis
 * bark when a command took over a threshold of time
+
 * watchdog that doesn't combine stderr and stdout but manages them properly
 * watchdog that prints to stdout incrementally, rather than waiting until the whole file is done
 
@@ -15,3 +16,4 @@ Watchdog
 * configure Jabber connection details to make it work with an SSL'd jabber server
 * logging to a stdout file and a stderr file
 * logging the command run
+* different configuration based on the command run?  probably better to do with aliases that use command line args to override config
