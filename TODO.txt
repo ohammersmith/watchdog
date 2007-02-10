@@ -17,3 +17,5 @@ Watchdog
 * logging to a stdout file and a stderr file
 * logging the command run
 * different configuration based on the command run?  probably better to do with aliases that use command line args to override config
+
+* automate TODO.txt and create a CHANGELOG and use that info as the commit message when doing rake move-on.
