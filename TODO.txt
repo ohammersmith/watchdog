@@ -1,0 +1,17 @@
+Watchdog
+--------
+* truncated/summary of output in a bark, rather than the full thing, configuration per 
+
+* bark when a command took over a threshold of time
+* watchdog that doesn't combine stderr and stdout but manages them properly
+* watchdog that prints to stdout incrementally, rather than waiting until the whole file is done
+
+* set growl options, sticky, icon, priority, host, port
+* logging how long the command took to run
+* watchdog that logs output to a file and rotates then properly (maybe this replaces one of the misc features)
+* watchdog that barks via text message (email?)
+* configure multiple Jabber ID's
+* configure multiple email addresses
+* configure Jabber connection details to make it work with an SSL'd jabber server
+* logging to a stdout file and a stderr file
+* logging the command run

@@ -24,6 +24,14 @@ module Watchdog
 
 
     def add_choices(builder)
+      builder.add_choice(:growl,
+                         :type => :boolean,
+                         :default => DEFAULT_GROWL) { | command_line |
+        command_line.uses_switch('-g', "--growl",
+                                 "Control Growl notification.",
+                                 "Defaults to #{DEFAULT_GROWL}.")
+      }
+
       builder.add_choice(:jabber,
                          :type => :boolean,
                          :default => DEFAULT_JABBER) { | command_line |

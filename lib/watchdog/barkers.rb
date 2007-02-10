@@ -180,5 +180,22 @@ module Watchdog
     end
   end
 
+  class GrowlBarker < Barker
+    def name; 'growl'; end
+    def symbol; :growl; end
+    
+    def validate
+      errors = []
+      #mail_to = @user_choices[:mail_to]
+      # if mail_to == nil or mail_to.empty?
+      #   errors << "There are no recipients. (mail_to)"
+      # end
+    end
+    
+    def bark(subject, message)
+      summary_message = message
+      `growlnotify -n "watchdog" -m "#{summary_message}" -t "#{subject}"`
+    end
+  end
 
 end

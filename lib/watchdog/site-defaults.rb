@@ -18,6 +18,7 @@ module Watchdog
   hostname = 'localhost' unless $? == 0 
   DEFAULT_HOST=hostname.strip
 
+  DEFAULT_GROWL='true'
   DEFAULT_JABBER='true'
   DEFAULT_MAIL='true'
   DEFAULT_COMMAND_LINE="true"  # Note: this is the only way you see

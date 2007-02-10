@@ -11,6 +11,7 @@ require 'watchdog/version'
 require 'watchdog/barkers'
 require 'watchdog/choices'
 require 'watchdog/timer'
+require 'watchdog/summarize'
 
 module Watchdog
 end
