@@ -22,9 +22,9 @@ module Watchdog
     end
 
 
-    def bark(subject, message)
+    def bark(subject, message, duration)
       simultaneously do | barker | 
-        barker.bark(subject, message)
+        barker.bark(subject, message, duration)
       end
     end
 

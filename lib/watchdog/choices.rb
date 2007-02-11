@@ -56,7 +56,55 @@ module Watchdog
                                  "Control display to terminal (standard output).",
                                  "Defaults to #{DEFAULT_COMMAND_LINE}.")
       }
+      
+      builder.add_choice(:growl_summary,
+                         :type => :boolean,
+                         :default => DEFAULT_GROWL_SUMMARY) { | command_line |
+        command_line.uses_switch("--growl-summary",
+                                 "Control summary of Growl notification.",
+                                 "Defaults to #{DEFAULT_GROWL_SUMMARY}")
+      }
 
+      builder.add_choice(:jabber_summary,
+                         :type => :boolean,
+                         :default => DEFAULT_JABBER_SUMMARY) { | command_line |
+        command_line.uses_switch("--jabber-summary",
+                                 "Control summary of Jabber notification.",
+                                 "Defaults to #{DEFAULT_JABBER_SUMMARY}")
+      }
+
+      builder.add_choice(:mail_summary,
+                         :type => :boolean,
+                         :default => DEFAULT_MAIL_SUMMARY) { | command_line |
+        command_line.uses_switch("--mail-summary",
+                                 "Control summary of email notification.",
+                                 "Defaults to #{DEFAULT_MAIL_SUMMARY}")
+      }
+
+      builder.add_choice(:mail_threshold,
+                         :type => :integer,
+                         :default => DEFAULT_MAIL_THRESHOLD) { | command_line |
+        command_line.uses_option("--mail-threshold NUMBER",
+                                 "Number of seconds command must take before a mail is sent.",
+                                 "Defaults to #{DEFAULT_MAIL_THRESHOLD}")
+      }
+
+      builder.add_choice(:growl_threshold,
+                         :type => :integer,
+                         :default => DEFAULT_GROWL_THRESHOLD) { | command_line |
+        command_line.uses_option("--growl-threshold NUMBER",
+                                 "Number of seconds command must take before a Growl notification is sent.",
+                                 "Defaults to #{DEFAULT_GROWL_THRESHOLD}")
+      }
+
+      builder.add_choice(:jabber_threshold,
+                         :type => :integer,
+                         :default => DEFAULT_JABBER_THRESHOLD) { | command_line |
+        command_line.uses_option("--jabber-threshold NUMBER",
+                                 "Number of seconds command must take before a Jabber message is sent.",
+                                 "Defaults to #{DEFAULT_JABBER_THRESHOLD}")
+      }
+      
       builder.add_choice(:mail_to,
                          :default => DEFAULT_MAIL_TO,
                          :type => [:string]) { | command_line |

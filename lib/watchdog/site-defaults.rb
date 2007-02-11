@@ -18,11 +18,19 @@ module Watchdog
   hostname = 'localhost' unless $? == 0 
   DEFAULT_HOST=hostname.strip
 
-  DEFAULT_GROWL='true'
+  DEFAULT_GROWL='false'
   DEFAULT_JABBER='true'
   DEFAULT_MAIL='true'
   DEFAULT_COMMAND_LINE="true"  # Note: this is the only way you see
                                # command-line output.
+                               
+  DEFAULT_GROWL_SUMMARY="true"
+  DEFAULT_JABBER_SUMMARY="true"
+  DEFAULT_MAIL_SUMMARY="false"
+  
+  DEFAULT_JABBER_THRESHOLD='0'
+  DEFAULT_MAIL_THRESHOLD='0'
+  DEFAULT_GROWL_THRESHOLD='0'
 
   DEFAULT_MAIL_TO="watchlist@#{DEFAULT_HOST}"
   DEFAULT_MAIL_FROM="watchdog@#{DEFAULT_HOST}"

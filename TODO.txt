@@ -1,21 +1,31 @@
 Watchdog
 --------
-* configurable summary per barker, rather than just summarizing the Growl and IM ones
+* print to stdout incrementally, rather than waiting until the command is done
+* logs output to a file and rotates then properly, separate or combined for stderr & stdout?
+* config to limit the number and/or age of log files kept
+* move ~/.watchdog.xml to ~/.watchdog/watchdog.xml
+
 * configurable summary head and tail and '...' elipsis
-* bark when a command took over a threshold of time
-
 * watchdog that doesn't combine stderr and stdout but manages them properly
-* watchdog that prints to stdout incrementally, rather than waiting until the whole file is done
-
 * set growl options, sticky, icon, priority, host, port
-* logging how long the command took to run
-* watchdog that logs output to a file and rotates then properly (maybe this replaces one of the misc features)
 * watchdog that barks via text message (email?)
-* configure multiple Jabber ID's
-* configure multiple email addresses
 * configure Jabber connection details to make it work with an SSL'd jabber server
-* logging to a stdout file and a stderr file
-* logging the command run
-* different configuration based on the command run?  probably better to do with aliases that use command line args to override config
-
 * automate TODO.txt and create a CHANGELOG and use that info as the commit message when doing rake move-on.
+
+.watchdog/ Layout
+-----------------
+
+.watchdog/
+    watchdog.xml
+    logs/
+        svn/
+            output-2007-02-11-02-01-31
+            output-2007-02-11-03-12-31
+            output-2007-02-11-03-12-31
+            output-2007-02-11-15-18-31
+        mvn/
+            output-2007-02-11-02-01-31
+            output-2007-02-11-03-12-31
+            output-2007-02-11-03-12-31
+            output-2007-02-11-15-18-31
+        

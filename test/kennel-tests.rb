@@ -17,9 +17,10 @@ class KennelTests < Test::Unit::TestCase
 
   class MuzzledBarker < Barker
     attr_reader :subject, :body
-    def bark(subject, body)
+    def bark(subject, body, duration)
       @subject = subject
       @body = body
+      @duration = duration
     end
   end
 
@@ -28,7 +29,7 @@ class KennelTests < Test::Unit::TestCase
     kennel = Kennel.new
     muzzled = MuzzledBarker.new 
     kennel.add(muzzled)
-    kennel.bark('subject', 'body')
+    kennel.bark('subject', 'body', 0)
     
     assert_equal('subject', muzzled.subject)
     assert_equal('body', muzzled.body)
@@ -37,7 +38,7 @@ class KennelTests < Test::Unit::TestCase
   class WhiningBarker < Barker
     def name; "whiner"; end
 
-    def bark(subject, body)
+    def bark(subject, body, duration)
       raise StandardError.new(subject)
     end
   end
@@ -47,7 +48,7 @@ class KennelTests < Test::Unit::TestCase
     muzzled = MuzzledBarker.new
     kennel.add(WhiningBarker.new, muzzled,
                   WhiningBarker.new, WhiningBarker.new)
-    kennel.bark('whine', 'or yelp')
+    kennel.bark('whine', 'or yelp', 0)
   rescue MultiException => ex
     messages = ex.message.split("\n")
     # Three whining messages

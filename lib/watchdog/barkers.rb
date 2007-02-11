@@ -11,7 +11,7 @@ require 'extensions/string'
 module Watchdog
 
   class Barker
-    def bark(subject, body); subclass_responsibility; end
+    def bark(subject, body, duration); subclass_responsibility; end
     def name; subclass_responsibility; end
     def symbol; :this_barker_can_never_be_chosen; end
 
@@ -58,7 +58,7 @@ module Watchdog
     def name; "terminal"; end
     def symbol; :command_line; end
 
-    def bark(subject, body)
+    def bark(subject, body, duration)
       all = [subject, body].join("\n")
       puts all.indent(2)
     end
@@ -99,18 +99,21 @@ module Watchdog
     # Use the superclass method for real.
     def invite_into(kennel); super; end
 
-    def bark(subject, body)
-      my_jid = JID.new(@user_choices[:jabber_account])
-      cl = Client.new(my_jid, false)
-      cl.connect
-      cl.auth(@user_choices[:jabber_password])
-      body = [subject, Watchdog.summarize(body)].join("\n")
-      @user_choices[:jabber_to].each do | recipient | 
-        m = Message::new(recipient, body).
-          set_type(:normal).set_id('1').set_subject(subject)
-        cl.send(m)
+    def bark(subject, body, duration)
+      if duration >= @user_choices[:jabber_threshold]
+        my_jid = JID.new(@user_choices[:jabber_account])
+        cl = Client.new(my_jid, false)
+        cl.connect
+        cl.auth(@user_choices[:jabber_password])
+        body = Watchdog.summarize(body) if @user_choices[:jabber_summary]  
+        body = [subject, body].join("\n")
+        @user_choices[:jabber_to].each do | recipient | 
+          m = Message::new(recipient, body).
+            set_type(:normal).set_id('1').set_subject(subject)
+          cl.send(m)
+        end
+        cl.close
       end
-      cl.close
     end
 
   end
@@ -158,25 +161,29 @@ module Watchdog
     end
 
     
-    def bark(subject, message)
+    def bark(subject, message, duration)
 
-      from = @user_choices[:mail_from]
-      to = @user_choices[:mail_to]
+      if duration >= @user_choices[:mail_threshold]
+        message = Watchdog.summarize(message) if @user_choices[:mail_summary]  
+      
+        from = @user_choices[:mail_from]
+        to = @user_choices[:mail_to]
 
-      Net::SMTP.start(@user_choices[:mail_server], @user_choices[:mail_port],
-                      @user_choices[:mail_from_domain],
-                      @user_choices[:mail_account],
-                      @user_choices[:mail_password],
-                      @user_choices[:mail_authentication]) { | smtp |
-        mail = "
-                . From: #{from}
-                . To: #{to.join(', ')}
-                . Subject: [watchdog] #{subject}
-                .
-                . #{message}
-               ".trim('.')
-        smtp.send_message(mail, from, to)
-      }
+        Net::SMTP.start(@user_choices[:mail_server], @user_choices[:mail_port],
+                        @user_choices[:mail_from_domain],
+                        @user_choices[:mail_account],
+                        @user_choices[:mail_password],
+                        @user_choices[:mail_authentication]) { | smtp |
+          mail = "
+                  . From: #{from}
+                  . To: #{to.join(', ')}
+                  . Subject: [watchdog] #{subject}
+                  .
+                  . #{message}
+                 ".trim('.')
+          smtp.send_message(mail, from, to)
+        }
+      end
     end
   end
 
@@ -186,15 +193,13 @@ module Watchdog
     
     def validate
       errors = []
-      #mail_to = @user_choices[:mail_to]
-      # if mail_to == nil or mail_to.empty?
-      #   errors << "There are no recipients. (mail_to)"
-      # end
     end
     
-    def bark(subject, message)
-      summary_message = Watchdog.summarize(message)
-      `growlnotify -n "watchdog" -m "#{summary_message}" -t "#{subject}"`
+    def bark(subject, message, duration)
+      if duration >= @user_choices[:growl_threshold]
+        message = Watchdog.summarize(message) if @user_choices[:growl_summary]
+        `growlnotify -n "watchdog" -m "#{message}" -t "#{subject}"`
+      end
     end
   end
 

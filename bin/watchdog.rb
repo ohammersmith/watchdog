@@ -48,7 +48,7 @@ class WatchdogCommand < Command
       `#{self.command_string} 2>&1`   # (3) 
     }
     title = "Program #{self.command_name} finished."
-    @kennel.bark(title, message(duration, text))   # (4)
+    @kennel.bark(title, message(duration, text), duration)   # (4)
   end
 
 end    

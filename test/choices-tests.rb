@@ -22,6 +22,14 @@ class ChoicesTests < Test::Unit::TestCase
         <command-line>true</command-line>
         <jabber>true</jabber>
         <mail>true</mail>
+        <growl>true</growl>
+        <growl-summary>false</growl-summary>
+        <jabber-summary>false</jabber-summary>
+        <mail-summary>true</mail-summary>
+        
+        <growl-threshold>5</growl-threshold>
+        <mail-threshold>6</mail-threshold>
+        <jabber-threshold>7</jabber-threshold>
       
         <mail-to>recipient@example.com</mail-to>
         <mail-from>bmarick@mac.com</mail-from>
@@ -46,6 +54,13 @@ class ChoicesTests < Test::Unit::TestCase
         assert_equal(true, dog.user_choices[:command_line])
         assert_equal(true, dog.user_choices[:jabber])
         assert_equal(true, dog.user_choices[:mail])
+        assert_equal(true, dog.user_choices[:growl])
+        assert_equal(false, dog.user_choices[:growl_summary])
+        assert_equal(false, dog.user_choices[:jabber_summary])
+        assert_equal(true, dog.user_choices[:mail_summary])
+        assert_equal(5, dog.user_choices[:growl_threshold])
+        assert_equal(6, dog.user_choices[:mail_threshold])
+        assert_equal(7, dog.user_choices[:jabber_threshold])
         assert_equal(['recipient@example.com'], dog.user_choices[:mail_to])
         assert_equal('bmarick@mac.com', dog.user_choices[:mail_from])
         assert_equal('smtp.mac.com', dog.user_choices[:mail_server])
@@ -68,7 +83,9 @@ class ChoicesTests < Test::Unit::TestCase
 
   def test_command_line
     erasing_local_config_file('.watchdog-config.xml') do
-      with_command_args(['--no-jabber --no-mail --no-terminal ',
+      with_command_args(['--no-jabber --no-mail --no-terminal --growl ',
+                          '--growl-summary --jabber-summary --mail-summary ',
+                          '--growl-threshold 11 --jabber-threshold 12 --mail-threshold 13 ',
                           '--mail-to fred,betty ',
                           '--mail-from me',
                           '--mail-server hostname ',
@@ -86,6 +103,13 @@ class ChoicesTests < Test::Unit::TestCase
         assert_equal(false, dog.user_choices[:command_line])
         assert_equal(false, dog.user_choices[:jabber])
         assert_equal(false, dog.user_choices[:mail])
+        assert_equal(true, dog.user_choices[:growl])
+        assert_equal(true, dog.user_choices[:growl_summary])
+        assert_equal(true, dog.user_choices[:jabber_summary])
+        assert_equal(true, dog.user_choices[:mail_summary])
+        assert_equal(11, dog.user_choices[:growl_threshold])
+        assert_equal(12, dog.user_choices[:jabber_threshold])
+        assert_equal(13, dog.user_choices[:mail_threshold])
         assert_equal(['fred', 'betty'], dog.user_choices[:mail_to])
         assert_equal('me', dog.user_choices[:mail_from])
         assert_equal('hostname', dog.user_choices[:mail_server])

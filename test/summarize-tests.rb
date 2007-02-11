@@ -25,5 +25,11 @@ class TestName < Test::Unit::TestCase
     summary = Watchdog.summarize(sample_output)
     expected_summary = "1\n2\n3\n4\n5\n...\n16\n17\n18\n19\n20"
     assert_equal(expected_summary, summary)
+    
+    sample_output = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n"
+    summary = Watchdog.summarize(sample_output)
+    #expected_summary = "1\n2\n3\n4\n5\n...\n16\n17\n18\n19\n20"
+    assert_equal(sample_output, summary)
   end
+  
 end
