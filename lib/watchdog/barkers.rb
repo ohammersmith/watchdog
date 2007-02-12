@@ -11,12 +11,13 @@ require 'extensions/string'
 module Watchdog
 
   class Barker
-    def bark(subject, body, duration); subclass_responsibility; end
+    def bark(subject, body, duration, header); subclass_responsibility; end
     def name; subclass_responsibility; end
     def symbol; :this_barker_can_never_be_chosen; end
 
     def validate; []; end
 
+    def bark_line(line) ; end
 
     attr_reader :errors
 
@@ -58,9 +59,14 @@ module Watchdog
     def name; "terminal"; end
     def symbol; :command_line; end
 
-    def bark(subject, body, duration)
-      all = [subject, body].join("\n")
+    def bark(subject, body, duration, header)
+      # all = [subject, body].join("\n")
+      all = ['='*76, subject, header, '='*76].join("\n")
       puts all.indent(2)
+    end
+    
+    def bark_line(line)
+      puts line
     end
   end
   
@@ -99,7 +105,7 @@ module Watchdog
     # Use the superclass method for real.
     def invite_into(kennel); super; end
 
-    def bark(subject, body, duration)
+    def bark(subject, body, duration, header)
       if duration >= @user_choices[:jabber_threshold]
         my_jid = JID.new(@user_choices[:jabber_account])
         cl = Client.new(my_jid, false)
@@ -161,7 +167,7 @@ module Watchdog
     end
 
     
-    def bark(subject, message, duration)
+    def bark(subject, message, duration, header)
 
       if duration >= @user_choices[:mail_threshold]
         message = Watchdog.summarize(message) if @user_choices[:mail_summary]  
@@ -195,7 +201,7 @@ module Watchdog
       errors = []
     end
     
-    def bark(subject, message, duration)
+    def bark(subject, message, duration, header)
       if duration >= @user_choices[:growl_threshold]
         message = Watchdog.summarize(message) if @user_choices[:growl_summary]
         `growlnotify -n "watchdog" -m "#{message}" -t "#{subject}"`

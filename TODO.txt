@@ -1,16 +1,32 @@
 Watchdog
---------
-* print to stdout incrementally, rather than waiting until the command is done
+========
+
+1.0
+---
+
 * logs output to a file and rotates then properly, separate or combined for stderr & stdout?
-* config to limit the number and/or age of log files kept
 * move ~/.watchdog.xml to ~/.watchdog/watchdog.xml
 
+Future
+------
+
+* config to limit the number and/or age of log files kept
+* switch away from an xml config file?  or at least allow a yml or rb config file as well?
+* split barkers into separate files
+* remove duplication in arguments passed to bark()
+* configure smtp barker and try it out
+* extract formatting logic into a formatting class?
 * configurable summary head and tail and '...' elipsis
-* watchdog that doesn't combine stderr and stdout but manages them properly
+* don't combine stderr and stdout but manages them properly
 * set growl options, sticky, icon, priority, host, port
 * watchdog that barks via text message (email?)
 * configure Jabber connection details to make it work with an SSL'd jabber server
 * automate TODO.txt and create a CHANGELOG and use that info as the commit message when doing rake move-on.
+* automate some interactive tests, so execution is automatic but assertions are from manual input
+* bark via jabber & growl at a fixed interval with a few lines... i.e., every 10 minutes with 5 lines.  means I need 
+  to track duration of execution for bark_lines
+* switch to simultaneously calling bark_line on each barker
+  use a threadpool or something so I don't create a too many threads (# lines * line-by-line barkers)
 
 .watchdog/ Layout
 -----------------
@@ -19,7 +35,9 @@ Watchdog
     watchdog.xml
     logs/
         svn/
-            output-2007-02-11-02-01-31
+            output-2007-02-11-02-01-31.combined  <=== maybe.. based on configuration?
+            output-2007-02-11-02-01-31.stderr    <=== maybe
+            output-2007-02-11-02-01-31.stdout    <=== maybe
             output-2007-02-11-03-12-31
             output-2007-02-11-03-12-31
             output-2007-02-11-15-18-31

@@ -35,27 +35,37 @@ class WatchdogCommand < Command
   end
 
   def message(duration, text)
-    [
-      "Duration: #{duration} seconds.",
-      "Command: #{command_string}",
-      "Output:",
-      text.indent(2),
-    ].join("\n")
+    l = header(duration) + ["Output:", text.indent(2)]
+    l.join("\n")
   end
 
-  def execute   # (1)
-    duration, text = Watchdog.time {  # (2)
-      `#{self.command_string} 2>&1`   # (3) 
+  def header(duration)
+    ["Duration: #{duration} seconds.", "Command: #{command_string}"]
+  end
+  
+  def execute
+    duration, text = Watchdog.time {
+      #`#{self.command_string} 2>&1`
+      IO.popen("#{self.command_string} 2>&1") { |output|
+        buffer = ""
+        while not output.eof
+          line = output.gets
+          @kennel.bark_line(line)
+          buffer += line
+        end
+        buffer
+      }      
     }
     title = "Program #{self.command_name} finished."
-    @kennel.bark(title, message(duration, text), duration)   # (4)
+    msg = message(duration, text)
+    @kennel.bark(title, msg, duration, header(duration).join("\n"))
   end
 
 end    
 
 if $0 == __FILE__
-  with_pleasant_exceptions do
-    WatchdogCommand.new.execute  # (5)
+  without_pleasant_exceptions do
+    WatchdogCommand.new.execute
   end
 end
 
