@@ -4,5 +4,5 @@
 # Visit http://www.pragmaticprogrammer.com/titles/bmsft for more book information.
 #---
 module Watchdog
-  Version = '0.2.5'
+  Version = '0.2.6'
 end

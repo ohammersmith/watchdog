@@ -64,7 +64,7 @@ class WatchdogCommand < Command
 end    
 
 if $0 == __FILE__
-  without_pleasant_exceptions do
+  with_pleasant_exceptions do
     WatchdogCommand.new.execute
   end
 end
