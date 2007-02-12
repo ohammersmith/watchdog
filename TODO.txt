@@ -11,6 +11,7 @@ Future
 ------
 
 * config to limit the number and/or age of log files kept
+* coverage test metrics to play with rcov and see if I've left out any useful tests.
 * switch away from an xml config file?  or at least allow a yml or rb config file as well?
 * split barkers into separate files
 * remove duplication in arguments passed to bark()
