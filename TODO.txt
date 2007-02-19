@@ -6,11 +6,21 @@ Watchdog
 
 * logs output to a file and rotates then properly, separate or combined for stderr & stdout?
 * move ~/.watchdog.xml to ~/.watchdog/watchdog.xml
+* increase summary to 6 lines to get BUILD SUCCESSFUL for maven commands
+* change the title of Output to Summary of output when it summarizes.
+* convert seconds to a legible time in hours/minutes/seconds
+* write summary to stderr not stdout so it doesn't get in the way of redirecting output to a file.
+* performance enhancements... it's very slow with large outputs, even after it's done, probably summarization.
+* performance enhancements... maybe use blocking io like select() before calling readlines()... is necessary with ruby?
+* performance enhancements... it's a freakin' memory hog, probably because I'm keeping a reference to every line in the output or something dumb like that.
 
 Future
 ------
 
 * config to limit the number and/or age of log files kept
+* somehow magically process the backspace characters properly so that log files don't end up with long streams of junk
+  from the progress bar magic that some commands do... this may amount to implementing a terminal, which would kinda suck.
+* don't line-buffer, anymore, do incremental buffering so that things like maven download progress bars work properly
 * coverage test metrics to play with rcov and see if I've left out any useful tests.
 * switch away from an xml config file?  or at least allow a yml or rb config file as well?
 * split barkers into separate files
@@ -28,6 +38,10 @@ Future
   to track duration of execution for bark_lines
 * switch to simultaneously calling bark_line on each barker
   use a threadpool or something so I don't create a too many threads (# lines * line-by-line barkers)
+* report on how long it usually takes to run commands based on logs... so that I can watch for things like svn or mvn install   
+  taking longer than it should over time
+* magically let watchdog run ruby commands in the same ruby process with exec("-")?
+* add syntax highlighting to stdout lines
 
 .watchdog/ Layout
 -----------------
